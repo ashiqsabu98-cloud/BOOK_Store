@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 70%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>📚 Category List</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Category Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for c in cat %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.category_name }}</td>
+            <td>{{ c.cat_description }}</td>
+            <td><a href="{% url 'edit_category' c.id %}">Edit</a></td>
+            <td><a href="{% url 'delete_category' c.id %}">Delete</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align:center;">No categories found</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

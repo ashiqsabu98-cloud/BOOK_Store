@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f5f6f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .actions a {
+            display: inline-block;
+            margin: 10px;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .actions a.view {
+            background-color: #17a2b8;
+        }
+
+        .actions a.logout {
+            background-color: #dc3545;
+        }
+
+        .actions a:hover {
+            opacity: 0.85;
+            transform: scale(1.05);
+        }
+
+        .books-section {
+            margin-top: 40px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            width: 220px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .book-card:hover {
+            transform: scale(1.03);
+        }
+
+        .book-card h3 {
+            margin: 0;
+            color: #007bff;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            color: #444;
+            margin: 5px 0;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h2>📘 Admin Dashboard</h2>
+        <ul>
+            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'logout_user' %}" class="logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome, {{ user.username }} 👑</h1>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Books</h3>
+                <p style="font-size: 28px;">{{ total_books }}</p>
+            </div>
+            <div class="stat-card" style="background-color:#17a2b8;">
+                <h3>Total Categories</h3>
+                <p style="font-size: 28px;">{{ total_categories }}</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="actions">
+            <a href="{% url 'add_book' %}">➕ Add New Book</a>
+            <a href="{% url 'add_category' %}">📂 Add Category</a>
+            <a href="{% url 'category_list' %}" class="view">👁 View Categories</a>
+           
+        </div>
+
+        <!-- Books Section -->
+        <div class="books-section">
+            <h2 style="text-align:center;">📚 All Books</h2>
+            <div class="card-container">
+                {% for book in books %}
+                <div class="book-card">
+                    <h3>{{ book.title }}</h3>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Category:</strong> {{ book.category }}</p>
+                    <p><strong>Price:</strong> ₹{{ book.price }}</p>
+                    <p><strong>Description:</strong> {{ book.description|truncatewords:10 }}</p>
+                    <a href="{% url 'edit_book' book.id %}">EDIT</a>
+                    <a href="{% url 'delete_book' book.id %}">DELETE</a>
+                </div>
+                {% empty %}
+                <p class="empty">No books have been added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

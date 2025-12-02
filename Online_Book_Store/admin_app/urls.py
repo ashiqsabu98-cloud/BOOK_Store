@@ -30,6 +30,7 @@ urlpatterns = [
     #path('register/', views.Register_user, name="Register_user"),
     #path('login/', views.login_user, name="login_user"),
     #path('logout/', views.logout_user, name="logout_user"),
+    path('',views.admin_home,name='admin_home'),
 
     path('add_book/',views.add_book,name='add_book'),
     path('category_list/',views.category_list,name="category_list"),
